@@ -12,7 +12,23 @@ require_once __DIR__ . '/server/get-status.php';
 class KenoAntigen {
   public static function handle_request($module, $method, $params) {
     $result = self::get_result($module, $method, $params);
-    echo json_encode([ 'result' => $result ]);
+
+    if (isset($result)) {
+      echo json_encode([
+        'jsonrpc' => '2.0',
+        'id' => 1,
+        'result' => $result,
+      ]);
+    } else {
+      echo json_encode([
+        'jsonrpc' => '2.0',
+        'id' => 1,
+        'error' => [
+          'message' => 'Invalid request.',
+          'data' => null,
+        ],
+      ]);
+    }
   }
 
   public static function get_result($module, $method, $params) {
@@ -30,11 +46,5 @@ class KenoAntigen {
         case 'get_status': return Empire\get_status();
       }
     }
-
-    return [
-      'error' => [
-        'message' => 'Invalid request'
-      ]
-    ];
   }
 }
