@@ -52,5 +52,11 @@ class KenoAntigen {
         case 'get_boosts': return Empire\get_boosts();
       }
     }
+
+    else if ($module == 'stats') {
+      switch ($method) {
+        case 'credits': return Stats\credits();
+      }
+    }
   }
 }
