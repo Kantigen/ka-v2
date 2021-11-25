@@ -16,5 +16,6 @@ function get_boosts() {
       "ship_speed"    => date(\KA\KenoAntigen::$DATE_FORMAT, strtotime('-48 hours')),
       "spy_training"  => date(\KA\KenoAntigen::$DATE_FORMAT, strtotime('-48 hours')),
     ],
+    "status" => \KA\Empire\get_status(),
   ];
 }
