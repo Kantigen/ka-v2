@@ -13,6 +13,7 @@ require_once __DIR__ . '/empire/login.php';
 require_once __DIR__ . '/empire/logout.php';
 require_once __DIR__ . '/map/get-star-map.php';
 require_once __DIR__ . '/server/get-status.php';
+require_once __DIR__ . '/spaceport/get-ships-for.php';
 require_once __DIR__ . '/stats/credits.php';
 
 class KenoAntigen {
@@ -216,6 +217,12 @@ class KenoAntigen {
     else if ($module == 'map') {
       switch ($method) {
         case 'get_star_map': return Map\get_star_map();
+      }
+    }
+
+    else if ($module == 'spaceport') {
+      switch ($method) {
+        case 'get_ships_for': return Spaceport\get_ships_for();
       }
     }
 
