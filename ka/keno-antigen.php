@@ -11,6 +11,7 @@ require_once __DIR__ . '/empire/get-status.php';
 require_once __DIR__ . '/empire/invite-friend.php';
 require_once __DIR__ . '/empire/login.php';
 require_once __DIR__ . '/empire/logout.php';
+require_once __DIR__ . '/map/get-star-map.php';
 require_once __DIR__ . '/server/get-status.php';
 require_once __DIR__ . '/stats/credits.php';
 
@@ -209,6 +210,12 @@ class KenoAntigen {
         case 'get_boosts': return Empire\get_boosts();
         case 'get_invite_friend_url': return Empire\get_invite_friend_url();
         case 'invite_friend': return Empire\invite_friend();
+      }
+    }
+
+    else if ($module == 'map') {
+      switch ($method) {
+        case 'get_star_map': return Map\get_star_map();
       }
     }
 

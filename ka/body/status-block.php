@@ -5,11 +5,11 @@ namespace KA\Body;
 function status_block() {
   return [
     'id' => 'id-goes-here',
-    'x' => -4,
-    'y' => 10,
+    'x' => -40,
+    'y' => 29,
     'star_id' => 'id-goes-here',
     'star_name' => 'Sol',
-    'orbit' => 3,
+    'orbit' => 1,
     'type' => 'habitable planet',
     'name' => 'Earth',
     'image' => 'p35',
