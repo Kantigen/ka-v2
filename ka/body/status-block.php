@@ -7,6 +7,7 @@ function status_block() {
     'id' => 'id-goes-here',
     'x' => -40,
     'y' => 29,
+    'zone' => '0|0',
     'star_id' => 'id-goes-here',
     'star_name' => 'Sol',
     'orbit' => 1,
