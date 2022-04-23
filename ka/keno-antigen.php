@@ -246,6 +246,7 @@ class KenoAntigen {
     else if ($module == 'spaceport') {
       switch ($method) {
         case 'get_ships_for': return Spaceport\get_ships_for();
+        case 'view': return Buildings\view();
       }
     }
 
