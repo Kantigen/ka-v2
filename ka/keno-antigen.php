@@ -7,6 +7,7 @@ require_once __DIR__ . '/body/get-status.php';
 require_once __DIR__ . '/buildings/view.php';
 require_once __DIR__ . '/empire/get-boosts.php';
 require_once __DIR__ . '/empire/get-invite-friend-url.php';
+require_once __DIR__ . '/empire/get-own-profile.php';
 require_once __DIR__ . '/empire/get-status.php';
 require_once __DIR__ . '/empire/invite-friend.php';
 require_once __DIR__ . '/empire/login.php';
@@ -216,6 +217,8 @@ class KenoAntigen {
         case 'get_boosts': return Empire\get_boosts();
         case 'get_invite_friend_url': return Empire\get_invite_friend_url();
         case 'invite_friend': return Empire\invite_friend();
+        case 'get_own_profile': return Empire\get_own_profile();
+        case 'edit_profile': return Empire\edit_profile();
       }
     }
 
