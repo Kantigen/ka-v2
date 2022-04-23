@@ -20,7 +20,12 @@ require_once __DIR__ . '/inbox/view-unread.php';
 require_once __DIR__ . '/map/get-star-map.php';
 require_once __DIR__ . '/server/get-status.php';
 require_once __DIR__ . '/spaceport/get-ships-for.php';
+require_once __DIR__ . '/stats/alliance-rank.php';
+require_once __DIR__ . '/stats/colony-rank.php';
 require_once __DIR__ . '/stats/credits.php';
+require_once __DIR__ . '/stats/empire-rank.php';
+require_once __DIR__ . '/stats/spy-rank.php';
+require_once __DIR__ . '/stats/weekly-medal-winners.php';
 
 class KenoAntigen {
   static $OLD_DATE_FORMAT = 'm d Y H:i:s O'; // TODO: is this relevant anywhere?
@@ -247,6 +252,11 @@ class KenoAntigen {
     else if ($module == 'stats') {
       switch ($method) {
         case 'credits': return Stats\credits();
+        case 'empire_rank': return Stats\empire_rank();
+        case 'alliance_rank': return Stats\alliance_rank();
+        case 'colony_rank': return Stats\colony_rank();
+        case 'spy_rank': return Stats\spy_rank();
+        case 'weekly_medal_winners': return Stats\weekly_medal_winners();
       }
     }
 
