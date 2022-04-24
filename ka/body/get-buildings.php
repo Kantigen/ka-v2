@@ -92,6 +92,15 @@ function get_buildings() {
           'x' => '3',
           'image' => 'templedrajilites1',
       ],
+      'essentiavein' => [
+          'y' => '3',
+          'efficiency' => '100',
+          'level' => '30',
+          'name' => 'Essentia Vein',
+          'url' => '/essentiavein',
+          'x' => '2',
+          'image' => 'essentiavein1',
+      ],
       '4943197' => [
           'y' => '2',
           'efficiency' => '100',
