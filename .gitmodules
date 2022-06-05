@@ -1,0 +1,9 @@
+[submodule "lacuna"]
+	path = lacuna
+	url = https://github.com/Kantigen/ka-web
+[submodule "assets"]
+	path = assets
+	url = https://github.com/Kantigen/Lacuna-Assets
+[submodule "ka-web"]
+	path = ka-web
+	url = https://github.com/Kantigen/ka-web

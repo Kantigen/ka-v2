@@ -1,0 +1,19 @@
+{
+  "name": "ka-legacy",
+  "version": "1.0.0",
+  "description": "",
+  "priate": true,
+  "main": "index.js",
+  "author": "Nathan McCallum <hey@nathan-mccallum.com>",
+  "license": "MIT",
+  "scripts": {
+    "serve": "concurrently \"npm run serve:lacuna\" \"npm run serve:stubs\"",
+    "serve:lacuna": "http-server",
+    "serve:stubs": "node ka-web/stubs/server.js",
+    "postinstall": "cd ka-web && npm install --ignore-scripts"
+  },
+  "dependencies": {
+    "concurrently": "^7.2.1",
+    "http-server": "^14.1.1"
+  }
+}
