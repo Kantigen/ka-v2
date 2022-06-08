@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "serve": "concurrently \"npm run serve:lacuna\" \"npm run serve:stubs\"",
-    "serve:lacuna": "http-server",
+    "serve:lacuna": "http-server --port 3000",
     "serve:stubs": "node ka-web/stubs/server.js",
     "postinstall": "cd ka-web && npm install --ignore-scripts"
   },
