@@ -1,0 +1,243 @@
+version: '2'
+
+volumes:
+  node-modules-frontend:
+  node-modules-legacy:
+  node-modules-stubs:
+
+services:
+
+  ########################
+  ## BEANSTALKD CONSOLE ##
+  ########################
+
+  ka-beanstalkd-console:
+    container_name: 'ka-beanstalkd-console'
+    depends_on:
+      - 'ka-beanstalkd'
+    image: 'schickling/beanstalkd-console'
+    ports:
+      - '2080:2080'
+
+  ################
+  ## BEANSTALKD ##
+  ################
+
+  ka-beanstalkd:
+    container_name: 'ka-beanstalkd'
+    image: 'schickling/beanstalkd'
+    ports:
+      - '11300:11300'
+
+  ###############
+  ## BG WORKER ##
+  ###############
+
+  ka-bg-worker:
+    command: 'perl bg_worker.pl daemon --nodaemonize --verbose'
+    container_name: 'ka-bg-worker'
+    build:
+      context: .
+      dockerfile: ./ka-server.dockerfile
+    depends_on:
+      - 'ka-server'
+    volumes:
+      - ./ka-server/bin:/home/keno/ka-server/bin
+      - ./ka-server/docs:/hom-dockere/keno/ka-server/docs
+      - ./ka-server/etc-docker:/home/keno/ka-server/etc
+      - ./ka-server/log:/home/keno/ka-server/log
+      - ./ka-server/lib:/home/keno/ka-server/lib
+      - ./ka-server/t:/home/keno/ka-server/t
+      - ./ka-server/var:/home/keno/ka-server/var
+
+  ###############
+  ## MEMCACHED ##
+  ###############
+
+  ka-memcached:
+    container_name: 'ka-memcached'
+    image: 'memcached'
+
+  ##################
+  ## MYSQL SERVER ##
+  ##################
+
+  ka-mysql-server:
+    container_name: 'ka-mysql-server'
+    environment:
+      - 'MYSQL_ROOT_PASSWORD=keno'
+    image: 'mysql:5.5'
+    volumes:
+      - './mysql-data:/var/lib/mysql'
+    ports:
+      - '3306:3306'
+
+  ################
+  ## PHPMYADMIN ##
+  ################
+
+  ka-phpmyadmin:
+    container_name: 'ka-phpmyadmin'
+    image: 'phpmyadmin:5.2-apache'
+    environment:
+      - 'PMA_HOST=ka-mysql-server'
+    ports:
+      - '8000:80'
+    depends_on:
+      - 'ka-mysql-server'
+    links:
+      - 'ka-mysql-server'
+
+  ###########
+  ## NGINX ##
+  ###########
+
+  ka-nginx:
+    build:
+      context: .
+      dockerfile: ./ka-nginx.dockerfile
+    container_name: 'ka-nginx'
+    depends_on:
+      - 'ka-server'
+    ports:
+      - '8080:80'
+      - '8443:443'
+    volumes:
+      - ./ka-server/etc-docker/nginx.conf:/etc/nginx/nginx.conf
+      - ./ka-server/etc-docker:/home/keno/ka-server/etc
+      - ./ka-server/var:/home/keno/ka-server/var
+      - ./ka-server/log:/home/keno/ka-server/log
+      - ./ka-server/captcha:/home/keno/ka-server/captcha
+      - ./ka-assets:/home/keno/ka-server/var/www/public/assets
+      - ./ka-server/var/www/public/api/api.css:/home/keno/ka-server/var/www/public/api/api.css
+
+  ###########
+  ## REDIS ##
+  ###########
+
+  ka-redis:
+    container_name: 'ka-redis'
+    image: redis # TODO: lock this to a particular version
+    ports:
+      - '6379:6379'
+
+  ############
+  ## SERVER ##
+  ############
+
+  ka-server:
+    build:
+      context: .
+      dockerfile: ./ka-server.dockerfile
+    command: '/bin/bash startdev.sh'
+    container_name: 'ka-server'
+    depends_on:
+      - 'ka-mysql-server'
+      - 'ka-phpmyadmin'
+      - 'ka-redis'
+      - 'ka-memcached'
+      - 'ka-beanstalkd'
+    environment:
+      - 'KA_NO_MIDDLEWARE=1'
+    ports:
+      - '5000:5000'
+    volumes:
+      - ./ka-server/bin:/home/keno/ka-server/bin
+      - ./ka-server/captcha:/home/keno/ka-server/captcha
+      - ./ka-server/docs:/home/keno/ka-server/docs
+      - ./ka-server/etc-docker:/home/keno/ka-server/etc
+      - ./ka-server/log:/home/keno/ka-server/log
+      - ./ka-server/lib:/home/keno/ka-server/lib
+      - ./ka-server/t:/home/keno/ka-server/t
+      - ./ka-server/var:/home/keno/ka-server/var
+      - ./ka-server/var/www/public/api/api.css:/home/keno/ka-server/var/www/public/api/api.css
+
+  ################
+  ## WEB SOCKET ##
+  ################
+
+  ka-websocket:
+    build:
+      context: .
+      dockerfile: ./ka-server.dockerfile
+    command: 'perl ws.pl'
+    container_name: 'ka-websocket'
+    depends_on:
+      - 'ka-server'
+    environment:
+      - 'KA_NO_MIDDLEWARE=1'
+    ports:
+      - '8090:80'
+    volumes:
+      - ./ka-server/bin:/home/keno/ka-server/bin
+      - ./ka-server/captcha:/home/keno/ka-server/captcha
+      - ./ka-server/docs:/home/keno/ka-server/docs
+      - ./ka-server/etc-docker:/home/keno/ka-server/etc
+      - ./ka-server/log:/home/keno/ka-server/log
+      - ./ka-server/lib:/home/keno/ka-server/lib
+      - ./ka-server/t:/home/keno/ka-server/t
+      - ./ka-server/var:/home/keno/ka-server/var
+
+  ##############
+  ## FRONTEND ##
+  ##############
+
+  ka-frontend:
+    build:
+      context: .
+      dockerfile: ./ka-frontend.dockerfile
+    command: 'npm run dev'
+    container_name: 'ka-frontend'
+    depends_on:
+      - 'ka-server'
+    ports:
+      - '3000:3000'
+    volumes:
+      - './ka-frontend:/usr/src/ka-frontend'
+      - 'node-modules-frontend:/usr/src/ka-frontend/node_modules'
+
+  #####################
+  ## LEGACY FRONTEND ##
+  #####################
+
+  ka-legacy:
+    build:
+      context: .
+      dockerfile: ./ka-legacy.dockerfile
+    command: 'npm run serve'
+    container_name: 'ka-legacy'
+    depends_on:
+      - 'ka-server'
+    ports:
+      - '3500:3500'
+    volumes:
+      - './ka-legacy:/usr/src/ka-legacy'
+      - 'node-modules-legacy:/usr/src/ka-legacy/node_modules'
+
+  ############
+  ## ASSETS ##
+  ############
+
+  ka-assets:
+    image: 'httpd:2-alpine'
+    container_name: 'ka-assets'
+    ports:
+      - '3002:80'
+    volumes:
+      - './ka-assets:/usr/local/apache2/htdocs/'
+
+  ###########
+  ## STUBS ##
+  ###########
+
+  ka-stubs:
+    build:
+      context: .
+      dockerfile: ./ka-stubs.dockerfile
+    command: 'npm run serve'
+    container_name: 'ka-stubs'
+    ports:
+      - '3001:3001'
+    volumes:
+      - './ka-stubs:/usr/src/ka-stubs'
+      - 'node-modules-stubs:/usr/src/ka-stubs/node_modules'

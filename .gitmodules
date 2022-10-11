@@ -1,0 +1,21 @@
+[submodule "ka-assets"]
+  path = ka-assets
+  url = git@github.com:Kantigen/Lacuna-Assets.git
+
+[submodule "ka-frontend"]
+  path = ka-frontend
+  url = git@github.com:Kantigen/ka-web.git
+  branch = v2
+
+[submodule "ka-server"]
+  path = ka-server
+  url = git@github.com:Kantigen/ka-server.git
+  branch = v2
+
+[submodule "ka-legacy"]
+  path = ka-legacy
+  url = git@github.com:Kantigen/ka-legacy.git
+
+[submodule "ka-stubs"]
+  path = ka-stubs
+  url = git@github.com:Kantigen/ka-stubs.git
