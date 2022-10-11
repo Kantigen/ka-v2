@@ -15,7 +15,7 @@
   <body id="body" class="yui-skin-sam">
     <div id="pulsing" class="nofooter yui-panel">
       <div class="bd">
-        <img src="/assets/ui/pulse-indicator.gif" alt="Pulse Indicator" />
+        <img src="http://localhost:3002/ui/pulse-indicator.gif" alt="Pulse Indicator" />
       </div>
     </div>
     <div id="header" class="yui-gb hidden">
@@ -59,9 +59,9 @@
       })();
     </script>
     <script type="text/javascript">
-      window.lacuna_s3_base_url = '/';
+      window.lacuna_s3_base_url = 'http://localhost:3002/';
       window.lacuna_code_base_url = '/lacuna/';
-      window.lacuna_rpc_base_url = 'http://localhost:3001/';
+      window.lacuna_rpc_base_url = 'http://localhost:3001/'; // Hit the stub server
     </script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.8.1/build/yuiloader/yuiloader-min.js"></script>
     <script type="text/javascript" src="/lacuna/load.js"></script>
