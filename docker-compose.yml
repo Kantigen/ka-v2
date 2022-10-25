@@ -156,27 +156,27 @@ services:
   ## WEB SOCKET ##
   ################
 
-  ka-websocket:
-    build:
-      context: .
-      dockerfile: ./ka-server.dockerfile
-    command: 'perl ws.pl'
-    container_name: 'ka-websocket'
-    depends_on:
-      - 'ka-server'
-    environment:
-      - 'KA_NO_MIDDLEWARE=1'
-    ports:
-      - '8090:80'
-    volumes:
-      - ./ka-server/bin:/home/keno/ka-server/bin
-      - ./ka-server/captcha:/home/keno/ka-server/captcha
-      - ./ka-server/docs:/home/keno/ka-server/docs
-      - ./ka-server/etc-docker:/home/keno/ka-server/etc
-      - ./ka-server/log:/home/keno/ka-server/log
-      - ./ka-server/lib:/home/keno/ka-server/lib
-      - ./ka-server/t:/home/keno/ka-server/t
-      - ./ka-server/var:/home/keno/ka-server/var
+  # ka-websocket:
+  #   build:
+  #     context: .
+  #     dockerfile: ./ka-server.dockerfile
+  #   command: 'perl ws.pl'
+  #   container_name: 'ka-websocket'
+  #   depends_on:
+  #     - 'ka-server'
+  #   environment:
+  #     - 'KA_NO_MIDDLEWARE=1'
+  #   ports:
+  #     - '8090:80'
+  #   volumes:
+  #     - ./ka-server/bin:/home/keno/ka-server/bin
+  #     - ./ka-server/captcha:/home/keno/ka-server/captcha
+  #     - ./ka-server/docs:/home/keno/ka-server/docs
+  #     - ./ka-server/etc-docker:/home/keno/ka-server/etc
+  #     - ./ka-server/log:/home/keno/ka-server/log
+  #     - ./ka-server/lib:/home/keno/ka-server/lib
+  #     - ./ka-server/t:/home/keno/ka-server/t
+  #     - ./ka-server/var:/home/keno/ka-server/var
 
   ##############
   ## FRONTEND ##
